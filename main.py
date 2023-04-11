@@ -27,6 +27,7 @@ if __name__ == '__main__':
                                                          #          -> last_pagination = int (default 4)
     
     csv_file_path = OUTPUT_FILES_DIR / f'{OUTPUT_FILE_NAME}.csv'
+    pathlib.Path(csv_file_path).parents[0].mkdir(parents=True, exist_ok=True)
     headers = ['Id', 'Category', 'Name', 'Image', 'Price']
     write_csv(csv_file_path, headers, products)
     finish_scrap(csv_file_path)
