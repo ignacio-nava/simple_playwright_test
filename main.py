@@ -24,9 +24,10 @@ if __name__ == '__main__':
         config = json.load(config_file)
         url = config['url']
     products = run(url)                                  # OPTIONS: -> semaphore = int (default 4)
-                                                         #          -> last_pagination = int (default 10)
-
+                                                         #          -> last_pagination = int (default 4)
+    
     csv_file_path = OUTPUT_FILES_DIR / f'{OUTPUT_FILE_NAME}.csv'
     headers = ['Id', 'Category', 'Name', 'Image', 'Price']
     write_csv(csv_file_path, headers, products)
     finish_scrap(csv_file_path)
+

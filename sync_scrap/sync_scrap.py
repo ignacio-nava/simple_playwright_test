@@ -11,16 +11,13 @@ def sync_scrap(url):
         
         page.goto(url)
 
-        categories_container = page.query_selector_all('.acsUxWidget')
-        _, *categories_rows = categories_container[1].query_selector_all('.bxc-grid__row')
-            
+        categories_container = page.query_selector('#s-refinements').query_selector_all('ul')[1]
+       
         categories = {}
-        for row in categories_rows:
-            columns = row.query_selector_all('.bxc-grid__column')
-            for column in columns:
-                data = column.query_selector('div > a')
-                key = data.get_attribute('aria-label').replace('Unique ', '')
-                value = data.get_attribute('href')
-                categories[key] = categories.get(key, f'{base_url}{value}')
+        for row in categories_container.query_selector_all('li'):
+            data = row.query_selector('a')
+            key = data.query_selector_all('span')[1].inner_html().replace('&amp;', 'and')
+            value = data.get_attribute('href')
+            categories[key] = categories.get(key, f'{base_url}{value}')
 
         return categories
