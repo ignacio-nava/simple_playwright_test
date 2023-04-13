@@ -58,13 +58,13 @@ async def fetch_with_semaphore(sem, *args, callback=None):
     async with sem:
         return await callback(*args)
 
-async def async_scrap(urls, semaphore=4, last_pagination=4):
-    sem = asyncio.Semaphore(semaphore)
+async def async_scrap(urls, **kwargs):
+    sem = asyncio.Semaphore(kwargs['semaphore'])
 
     print(f'\33[1m{len(urls.keys())} Categories founded\033[0m\n')
 
     tasks_products_scrap = [
-        asyncio.create_task(fetch_with_semaphore(sem, index, category, url, last_pagination, callback=scrap_products))
+        asyncio.create_task(fetch_with_semaphore(sem, index, category, url, kwargs['last_pagination'], callback=scrap_products))
         for index, (category, url) in enumerate(urls.items())
     ]
 
