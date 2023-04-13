@@ -10,6 +10,15 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
-In **main.py** is possible to change the output path, the semaphore, and the last pagination index
+## Options
 
-By default, the output will be in the **files** folder.
+**--semaphore** *SEMAPHORE*, by default: 4 
+                       
+**--last-pagination** *LAST_PAGINATION*, by default: 4 
+                       
+**--output-file-name** *OUTPUT_FILE_NAME*, by default: products
+                       
+Example
+```bash
+python main.py --semaphore=2 --last-pagination=5 --output-file-name=results
+```
