@@ -13,13 +13,14 @@ def sync_scrap(url):
         #  Go to URL
         page.goto(url)
         #  Find element that contains all categories to scrap
-        categories_container = page.query_selector(
-            '.left_nav.browseBox').query_selector('ul')
+        categories_container = page.query_selector('#s-refinements')\
+                                   .query_selector('ul')
         #  Make dictionary with this categories
         categories = {}
         for row in categories_container.query_selector_all('li'):
             data = row.query_selector('a')
-            key = data.inner_html().replace('&amp;', 'and')
+            key = data.query_selector_all('span')[-1]\
+                      .inner_html().replace('&amp;', 'and')
             value = data.get_attribute('href')
             categories[key] = categories.get(key, f'{base_url}{value}')
 

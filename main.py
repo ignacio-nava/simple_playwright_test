@@ -14,7 +14,6 @@ def run(url, **kwargs):
     # Scrap URL for each category (simplify)
     urls = sync_scrap(url)
     # Scrap PRODUCTS for each URL
-    print(urls)
     products = asyncio.run(async_scrap(urls,  **kwargs))
     return products
 
@@ -32,7 +31,9 @@ if __name__ == '__main__':
     products = run(url, **kwargs)
 
     csv_file_path = OUTPUT_FILES_DIR / f'{kwargs["output_file_name"]}.csv'
-    pathlib.Path(csv_file_path).parents[0].mkdir(parents=True, exist_ok=True)
+    pathlib.Path(csv_file_path)\
+           .parents[0]\
+           .mkdir(parents=True, exist_ok=True)
     headers = ['Id', 'Category', 'Name', 'Image', 'Price']
     write_csv(csv_file_path, headers, products)
     finish_scrap(csv_file_path)

@@ -3,7 +3,7 @@ from random import randint
 
 from playwright.async_api import async_playwright
 
-    
+
 async def scrap_products(index, category, url, last_pagination):
     index += 1
     base_url = '/'.join(url.split('/')[:3])
@@ -25,7 +25,7 @@ async def scrap_products(index, category, url, last_pagination):
                 base, paginator = next_page.split('page=')
                 next_page = 'page='.join([base, f'{i}{paginator[1:-1]}{i}'])
                 await page.goto(base_url + next_page)
-            
+
             components = await page.query_selector_all('.s-search-results > div')
             for component in components:
                 component_type = await component.get_attribute('data-component-type')
@@ -44,19 +44,23 @@ async def scrap_products(index, category, url, last_pagination):
 
                     products.append((category, name, image, price))
                 else:
-                    if i != 1: continue
+                    if i != 1:
+                        continue
                     paginator = await component.query_selector('div[role="navigation"] a')
                     if paginator:
                         next_page = await paginator.get_attribute('href')
 
         scrap_len = len(products)
         scrap_len = f'{scrap_len} New Product' if scrap_len == 1 else f'{scrap_len} New Products'
-        print(f'\033[1;42m[{index}]\033[0m Finish scrap \033[1;42m{category:40} -> {scrap_len} \033[0m')
+        print(
+            f'\033[1;42m[{index}]\033[0m Finish scrap \033[1;42m{category:40} -> {scrap_len} \033[0m')
         return products
+
 
 async def fetch_with_semaphore(sem, *args, callback=None):
     async with sem:
         return await callback(*args)
+
 
 async def async_scrap(urls, **kwargs):
     sem = asyncio.Semaphore(kwargs['semaphore'])
@@ -64,7 +68,12 @@ async def async_scrap(urls, **kwargs):
     print(f'\33[1m{len(urls.keys())} Categories founded\033[0m\n')
 
     tasks_products_scrap = [
-        asyncio.create_task(fetch_with_semaphore(sem, index, category, url, kwargs['last_pagination'], callback=scrap_products))
+        asyncio.create_task(
+            fetch_with_semaphore(
+                sem, index, category, url,
+                kwargs['last_pagination'], callback=scrap_products
+            )
+        )
         for index, (category, url) in enumerate(urls.items())
     ]
 
