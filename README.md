@@ -1,16 +1,22 @@
 # Scrap Amazon with Playwright
 This code is a test of the Playwright library. It asynchronously scraps Amazon's website.
-## Installation
+## 1) Installation
+**- Clone**
 ```bash
 git clone https://github.com/ignacio-nava/simple_playwright_test.git
 cd simple_playwright_test
+```
+**- Create and activate the virtual enviroment**
+
+**- Install requirements**
+```bash
 pip install -r requirements.txt
 ```
-## Usage
+## 2) Usage
 ```bash
 python main.py
 ```
-## Options
+## 3) Options
 
 **--semaphore** *SEMAPHORE*, by default: 4 
                        
